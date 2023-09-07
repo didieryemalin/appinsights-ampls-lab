@@ -18,5 +18,8 @@ module privateDNSZones 'privatednsdeploy.bicep' = {
   }
 }
 
-
+module vnetlinks 'virtualnetworklinks.bicep' = {
+  name = 'vnetlinks'
+  
+}
 

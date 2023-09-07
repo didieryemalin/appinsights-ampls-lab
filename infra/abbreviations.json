@@ -27,6 +27,7 @@
     "containerRegistryRegistries": "cr",
     "containerServiceManagedClusters": "aks-",
     "databricksWorkspaces": "dbw-",
+    "datacollectionEndpoints": "dce-",
     "dataFactoryFactories": "adf-",
     "dataLakeAnalyticsAccounts": "dla",
     "dataLakeStoreAccounts": "dls",
