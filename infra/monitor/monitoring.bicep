@@ -24,5 +24,5 @@ module logAnalyticsWorkspce 'loganalytics.bicep' = {
 }
 
 output appInsightsId string = applicationInsights.outputs. appInsightsId
-output appinsihgtsConnectionString string = applicationInsights.outputs.appinsihgtsConnectionString
+output appinsightsConnectionString string = applicationInsights.outputs.appinsightsConnectionString
 output laworkspaceId string = logAnalyticsWorkspce.outputs.laworkspaceId
