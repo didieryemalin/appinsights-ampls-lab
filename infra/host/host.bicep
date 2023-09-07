@@ -33,7 +33,7 @@ module functionapp 'functionapp.bicep' = {
   params: {
     environmentName: environmentName
     location: location
-    purpose: 'ai-datagenerator'
+    purpose: 'aidatagenerator'
     appServicePlanId: appserviceplan.outputs.appServicePlanId
     appplicationInsightsConnectionString: appplicationInsightsConnectionString
     storageConnectionString: storage.outputs.connectionstring
