@@ -1,5 +1,7 @@
 param location string 
 
+param environmentName string
+
 param dceName string
 param dceEndpointId string
 
@@ -13,15 +15,11 @@ param privateEndpointSubnetId string
 
 param ventId string
 
-param amplsName string
-
-param privateEndpointName string
-
 //deploying AMPLS
 module ampls 'ampls.bicep' = {
   name : 'amplsdeployment'
   params: {
-    name: amplsName
+    environmentName: environmentName
   }
 }
 
@@ -29,7 +27,7 @@ module ampls 'ampls.bicep' = {
 module privateEndpoint 'privateendpoint.bicep'={
   name: 'privateEndpoint'
   params: {
-    name: privateEndpointName
+    environmentName: environmentName
     location: location
     privateEndpointSubnetId: privateEndpointSubnetId
     privateLinkId: ampls.outputs.privateLinkId 
@@ -37,15 +35,15 @@ module privateEndpoint 'privateendpoint.bicep'={
 }
 
 //deploying Private DNS Zones
-module privateDnsZones 'privateDnsZones.bicep' ={
+module privateDnsZones 'privatednsdeploy.bicep'={
   name: 'priavteDnsDeployment'
   params: {
-    
+    environmentName: environmentName
   }
 }
 
 //Adding vnetlink to private DNS Zone 
-module vnetLinkMonitor 'ventlink.bicep' = {
+module vnetLinkMonitor 'vnetlink.bicep' ={
   name: 'ventLinkMonitor'
   params: {
     privateDnsName: privateDnsZones.outputs.privateDnsMonitorName
@@ -55,7 +53,7 @@ module vnetLinkMonitor 'ventlink.bicep' = {
 }
 
 //Adding vnetlink to private DNS Zone 
-module vnetLinkOMS 'ventlink.bicep' = {
+module vnetLinkOMS 'vnetlink.bicep'={
   name: 'vnetLinkOMS'
   params: {
     privateDnsName: privateDnsZones.outputs.privateDnsOmsName
@@ -65,7 +63,7 @@ module vnetLinkOMS 'ventlink.bicep' = {
 }
 
 //Adding vnetlink to private DNS Zone 
-module vnetLinkODS 'ventlink.bicep' = {
+module vnetLinkODS 'vnetlink.bicep'={
   name: 'vnetLinkODS'
   params: {
     privateDnsName: privateDnsZones.outputs.privateDnsOdsName
@@ -75,7 +73,7 @@ module vnetLinkODS 'ventlink.bicep' = {
 }
 
 //Adding vnetlink to private DNS Zone 
-module vnetLinkAgentsvc 'ventlink.bicep' = {
+module vnetLinkAgentsvc 'vnetlink.bicep'={
   name: 'vnetLinkAgentsvc'
   params: {
     privateDnsName: privateDnsZones.outputs.rivateDnsAgentSvcName
@@ -85,7 +83,7 @@ module vnetLinkAgentsvc 'ventlink.bicep' = {
 }
 
 //Adding vnetlink to private DNS Zone 
-module vnetLinkBlobCore 'ventlink.bicep' = {
+module vnetLinkBlobCore 'vnetlink.bicep' ={
   name: 'vnetLinkBlobCore'
   params: {
     privateDnsName: privateDnsZones.outputs.privateDnsblobCoreName
@@ -95,7 +93,7 @@ module vnetLinkBlobCore 'ventlink.bicep' = {
 }
 
 //Adding Private DNS Zone configuration for Private Endpoint
-module privateDnsZoneGroupDeplyment  'privateZoneDNSGroup.bicep'= {
+module privateDnsZoneGroupDeplyment  'privatednszonegroup.bicep'={
   name: 'privateDnsZoneGroupDeployment'
   params: {
     privateDnsAgentsvcId: privateDnsZones.outputs.privateDnsAgentSvcId
