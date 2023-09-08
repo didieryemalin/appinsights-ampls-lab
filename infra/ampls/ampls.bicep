@@ -1,9 +1,12 @@
-@description('Name of Azure Monitor Private Link Scope')
-param name string
+param environmentName string
+
+var abbrs = loadJsonContent('../abbreviations.json')
+var tags = { 'azd-env-name': environmentName }
 
 resource ampls 'microsoft.insights/privateLinkScopes@2021-07-01-preview' = {
-  name: name
+  name: '${abbrs.networkAzureMonitorPrivateLinkScope}${environmentName}'
   location: 'global'
+  tags: tags
   properties: {
     accessModeSettings: {
       ingestionAccessMode: 'Open'
