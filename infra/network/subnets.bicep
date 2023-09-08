@@ -3,7 +3,7 @@
 param vnetName string
 
 @description('subnet name')
-param environmentName string
+param subnetName string
 
 @description('Subnet address prefix in CIDR')
 param subnetAddressPrefix string
@@ -14,7 +14,7 @@ param delegateToAppService bool = false
 var abbrs = loadJsonContent('../abbreviations.json')
 
 resource subnet 'Microsoft.Network/virtualNetworks/subnets@2020-06-01' = {
-  name: '${vnetName}/${abbrs.networkVirtualNetworksSubnets}${environmentName}'
+  name: '${vnetName}/${abbrs.networkVirtualNetworksSubnets}${subnetName}'
   properties: {
     addressPrefix: subnetAddressPrefix
     delegations: delegateToAppService ? [

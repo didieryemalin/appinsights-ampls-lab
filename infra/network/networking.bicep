@@ -1,27 +1,28 @@
 param location string 
-param vnetName string = 'ampls-vnet'
+param environmentName string
+
 param vnetAddressPrefix string = '10.0.0.0/16'
-param subnet1Name string = 'default'
+
 param subnet1AddressPrefix string = '10.0.1.0/24'
-param subnet2Name string = 'appServiceSubnet'
+
 param subnet2AddressPrefix string = '10.0.2.0/24'
-param subnet3Name string = 'PESubnet'
+
 param subnet3AddressPrefix string = '10.0.3.0/24'
 
 module vnet './vnet.bicep' = {
   name: 'vnetModule'
   params: {
     location: location
-    vnetName: vnetName
+    environmentName: environmentName
     vnetAddressPrefix: vnetAddressPrefix
   }
 }
 
 module subnet1 './subnets.bicep' = {
-  name: 'subnet1Module'
+  name: 'IaaSsubnet'
   params: {
     vnetName: vnet.outputs.vnetName
-    subnetName: subnet1Name
+    subnetName: 'IaasSubnet'
     subnetAddressPrefix: subnet1AddressPrefix
   }
   dependsOn: [
@@ -30,10 +31,10 @@ module subnet1 './subnets.bicep' = {
 }
 
 module subnet2 './subnets.bicep' = {
-  name: 'subnet2Module'
+  name: 'PaaSsubnet'
   params: {
     vnetName: vnet.outputs.vnetName
-    subnetName: subnet2Name
+    subnetName: 'PaaSsubnet'
     subnetAddressPrefix: subnet2AddressPrefix
     delegateToAppService: true
   }
@@ -44,10 +45,10 @@ module subnet2 './subnets.bicep' = {
 }
 
 module subnet3 './subnets.bicep' = {
-  name: 'subnet3Module'
+  name: 'MgmtSubnet'
   params: {
     vnetName: vnet.outputs.vnetName
-    subnetName: subnet3Name
+    subnetName: 'MgmtSubnet'
     subnetAddressPrefix: subnet3AddressPrefix
   }
   dependsOn: [
