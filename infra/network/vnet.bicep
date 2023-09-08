@@ -9,7 +9,7 @@ var abbrs = loadJsonContent('../abbreviations.json')
 var tags = { 'azd-env-name': environmentName }
 
 resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = {
-  name: '${abbrs.networkVirtualNetworksSubnets}${environmentName}'
+  name: '${abbrs.networkVirtualNetworks}${environmentName}'
   tags: tags
   location: location
   properties: {
