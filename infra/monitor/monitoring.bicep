@@ -14,7 +14,7 @@ module applicationInsights 'applicationinsights.bicep' ={
 module logAnalyticsWorkspce 'loganalytics.bicep' = {
   name: 'laWorkspace'
   params: {
-    environmentNam: environmentName
+    environmentName: environmentName
     location: location
   }
 }
@@ -22,7 +22,7 @@ module logAnalyticsWorkspce 'loganalytics.bicep' = {
 module dataCollectionEndpoint 'datacollectionendpoint.bicep' ={
   name: 'dce'
   params: {
-    environmentNam: environmentName
+    environmentName: environmentName
     location: location
   }
 }
