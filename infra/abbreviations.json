@@ -65,6 +65,7 @@
     "networkApplicationGateways": "agw-",
     "networkApplicationSecurityGroups": "asg-",
     "networkAzureFirewalls": "afw-",
+    "networkAzureMonitorPrivateLinkScope": "ampls-",
     "networkBastionHosts": "bas-",
     "networkConnections": "con-",
     "networkDnsZones": "dnsz-",
