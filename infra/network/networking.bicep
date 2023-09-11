@@ -4,7 +4,7 @@ param environmentName string
 param appInsightsId string
 param appinsihgtsName string
 param dceEndpointId string
-param  dceName string
+param dceName string
 param laworkspaceId string
 param laworkspaceName string
 
@@ -17,7 +17,7 @@ param subnet2AddressPrefix string = '10.0.2.0/24'
 param subnet3AddressPrefix string = '10.0.3.0/24'
 
 module vnet './vnet.bicep' = {
-  name: 'vnet'
+  name: 'vnetdeployment'
   params: {
     location: location
     environmentName: environmentName
@@ -65,7 +65,7 @@ module peSubnet './subnets.bicep' = {
 }
 
 module amplsdeployment 'ampls/amplsdeploy.bicep' ={
-  name: environmentName
+  name: 'amplsenvironmentdeployment'
   params: {
     location: location
     appInsightsId: appInsightsId

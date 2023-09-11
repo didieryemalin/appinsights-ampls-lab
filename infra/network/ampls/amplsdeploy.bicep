@@ -103,6 +103,9 @@ module privateDnsZoneGroupDeplyment  'privatednszonegroup.bicep'={
     privateDnsOmsId: privateDnsZones.outputs.privateDnsOmsId
     privateEndpointName: privateEndpoint.outputs.privateEndpointName
   }
+  dependsOn:[
+    privateEndpoint
+  ]
 }
 
 //Adding AppInsihgts to AMPLS

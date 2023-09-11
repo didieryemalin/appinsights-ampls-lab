@@ -19,8 +19,14 @@ module monitoring 'monitor/monitoring.bicep' = {
 
 module networking 'network/networking.bicep' = {
   name: 'networking'
-  params:{
-    environmentName: environmentName
+  params: {
     location: location
+    appInsightsId: monitoring.outputs.appInsightsId
+    appinsihgtsName: monitoring.outputs.appInsightsName
+    dceEndpointId: monitoring.outputs.dceEndpointId
+    dceName: monitoring.outputs.dceName
+    environmentName: environmentName
+    laworkspaceId: monitoring.outputs.laworkspaceId
+    laworkspaceName: monitoring.outputs.laworkspaceName
   }
-}
+  }
