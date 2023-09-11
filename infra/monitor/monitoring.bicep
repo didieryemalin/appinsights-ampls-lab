@@ -3,7 +3,7 @@ param environmentName string
 param location string 
 
 module applicationInsights 'applicationinsights.bicep' ={
-  name: 'appInsights'
+  name: 'appInsightsdeployment'
   params: {
     environmentName: environmentName
     location: location
@@ -12,7 +12,7 @@ module applicationInsights 'applicationinsights.bicep' ={
 }
 
 module logAnalyticsWorkspce 'loganalytics.bicep' = {
-  name: 'laWorkspace'
+  name: 'laWorkspacedeployment'
   params: {
     environmentName: environmentName
     location: location
@@ -20,7 +20,7 @@ module logAnalyticsWorkspce 'loganalytics.bicep' = {
 }
 
 module dataCollectionEndpoint 'datacollectionendpoint.bicep' ={
-  name: 'dce'
+  name: 'dcedeployment'
   params: {
     environmentName: environmentName
     location: location
