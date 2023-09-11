@@ -25,7 +25,7 @@ module ampls 'ampls.bicep' = {
 
 //Creating Private Endpoint
 module privateEndpoint 'privateendpoint.bicep'={
-  name: 'privateEndpoint'
+  name: 'privateEndpointDeployment'
   params: {
     environmentName: environmentName
     location: location
