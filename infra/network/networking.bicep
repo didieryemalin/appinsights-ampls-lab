@@ -1,6 +1,13 @@
 param location string 
 param environmentName string
 
+param appInsightsId string
+param appinsihgtsName string
+param dceEndpointId string
+param  dceName string
+param laworkspaceId string
+param laworkspaceName string
+
 param vnetAddressPrefix string = '10.0.0.0/16'
 
 param subnet1AddressPrefix string = '10.0.1.0/24'
@@ -18,7 +25,7 @@ module vnet './vnet.bicep' = {
   }
 }
 
-module subnet1 './subnets.bicep' = {
+module desaultSubnet './subnets.bicep' = {
   name: 'IaaSsubnet'
   params: {
     vnetName: vnet.outputs.vnetName
@@ -30,7 +37,7 @@ module subnet1 './subnets.bicep' = {
   ]
 }
 
-module subnet2 './subnets.bicep' = {
+module webAppSubnet './subnets.bicep' = {
   name: 'PaaSsubnet'
   params: {
     vnetName: vnet.outputs.vnetName
@@ -40,11 +47,11 @@ module subnet2 './subnets.bicep' = {
   }
   dependsOn: [
     vnet
-    subnet1
+    desaultSubnet
   ]
 }
 
-module subnet3 './subnets.bicep' = {
+module peSubnet './subnets.bicep' = {
   name: 'MgmtSubnet'
   params: {
     vnetName: vnet.outputs.vnetName
@@ -52,7 +59,23 @@ module subnet3 './subnets.bicep' = {
     subnetAddressPrefix: subnet3AddressPrefix
   }
   dependsOn: [
-    vnet
-    subnet2
+   vnet
+   webAppSubnet
   ]
+}
+
+module amplsdeployment 'ampls/amplsdeploy.bicep' ={
+  name: environmentName
+  params: {
+    location: location
+    appInsightsId: appInsightsId
+    appInsightsName:appinsihgtsName 
+    dceEndpointId: dceEndpointId
+    dceName: dceName
+    environmentName: environmentName
+    laworkspaceId: laworkspaceId
+    laworkspaceName: laworkspaceName
+    privateEndpointSubnetId: peSubnet.outputs.subNetId
+    ventId: vnet.outputs.ventId 
+  }
 }
