@@ -29,7 +29,7 @@ module dataCollectionEndpoint 'datacollectionendpoint.bicep' ={
 
 output appInsightsId string = applicationInsights.outputs. appInsightsId
 output appInsightsName string = applicationInsights.outputs.appInsightsName
-output appinsihgtsConnectionString string = applicationInsights.outputs.appInsightsConnectionString
+output appInsightsConnectionString string = applicationInsights.outputs.appInsightsConnectionString
 
 output laworkspaceId string = logAnalyticsWorkspce.outputs.laworkspaceId
 output laworkspaceName string = logAnalyticsWorkspce.outputs.laworkspaceName
