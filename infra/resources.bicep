@@ -22,7 +22,7 @@ module networking 'network/networking.bicep' = {
   params: {
     location: location
     appInsightsId: monitoring.outputs.appInsightsId
-    appinsihgtsName: monitoring.outputs.appInsightsName
+    appInsightsName: monitoring.outputs.appInsightsName
     dceEndpointId: monitoring.outputs.dceEndpointId
     dceName: monitoring.outputs.dceName
     environmentName: environmentName

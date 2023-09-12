@@ -36,4 +36,3 @@ output laworkspaceName string = logAnalyticsWorkspce.outputs.laworkspaceName
 
 output dceEndpointId string = dataCollectionEndpoint.outputs.dceEndpointId
 output dceName string= dataCollectionEndpoint.outputs.dceName
-
