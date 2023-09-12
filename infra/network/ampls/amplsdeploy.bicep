@@ -13,7 +13,7 @@ param appInsightsId string
 
 param privateEndpointSubnetId string
 
-param ventId string
+param vnetId string
 
 //deploying AMPLS
 module ampls 'ampls.bicep' = {
@@ -35,7 +35,7 @@ module privateEndpoint 'privateendpoint.bicep'={
 }
 
 //deploying Private DNS Zones
-module privateDnsZones 'privatednsdeploy.bicep'={
+module privateDnsZones 'privateDnsZonedeploy.bicep'={
   name: 'priavteDnsDeployment'
   params: {
     environmentName: environmentName
@@ -46,9 +46,9 @@ module privateDnsZones 'privatednsdeploy.bicep'={
 module vnetLinkMonitor 'vnetlink.bicep' ={
   name: 'ventLinkMonitor'
   params: {
-    privateDnsName: privateDnsZones.outputs.privateDnsMonitorName
-    vnetId: ventId
-    vnetLinkName: '${privateDnsZones.outputs.privateDnsMonitorName}.vnetlink'
+    privateDnsZoneName: privateDnsZones.outputs.privateDnsZoneMonitorName
+    vnetId: vnetId
+    vnetLinkName: '${privateDnsZones.outputs.privateDnsZoneMonitorName}.vnetlink'
   }
 }
 
@@ -56,9 +56,9 @@ module vnetLinkMonitor 'vnetlink.bicep' ={
 module vnetLinkOMS 'vnetlink.bicep'={
   name: 'vnetLinkOMS'
   params: {
-    privateDnsName: privateDnsZones.outputs.privateDnsOmsName
-    vnetId: ventId
-    vnetLinkName: '${privateDnsZones.outputs.privateDnsOmsName}.vnetlink'
+    privateDnsZoneName: privateDnsZones.outputs.privateDnsZoneOmsName
+    vnetId: vnetId
+    vnetLinkName: '${privateDnsZones.outputs.privateDnsZoneOmsName}.vnetlink'
   }
 }
 
@@ -66,9 +66,9 @@ module vnetLinkOMS 'vnetlink.bicep'={
 module vnetLinkODS 'vnetlink.bicep'={
   name: 'vnetLinkODS'
   params: {
-    privateDnsName: privateDnsZones.outputs.privateDnsOdsName
-    vnetId: ventId
-    vnetLinkName: '${privateDnsZones.outputs.privateDnsOdsName}.vnetlink'
+    privateDnsZoneName: privateDnsZones.outputs.privateDnsZoneOdsName
+    vnetId: vnetId
+    vnetLinkName: '${privateDnsZones.outputs.privateDnsZoneOdsName}.vnetlink'
   }
 }
 
@@ -76,9 +76,9 @@ module vnetLinkODS 'vnetlink.bicep'={
 module vnetLinkAgentsvc 'vnetlink.bicep'={
   name: 'vnetLinkAgentsvc'
   params: {
-    privateDnsName: privateDnsZones.outputs.rivateDnsAgentSvcName
-    vnetId: ventId
-    vnetLinkName: '${privateDnsZones.outputs.rivateDnsAgentSvcName}.vnetlink'
+    privateDnsZoneName: privateDnsZones.outputs.privateDnsZoneAgentSvcName
+    vnetId: vnetId
+    vnetLinkName: '${privateDnsZones.outputs.privateDnsZoneAgentSvcName}.vnetlink'
   }
 }
 
@@ -86,9 +86,9 @@ module vnetLinkAgentsvc 'vnetlink.bicep'={
 module vnetLinkBlobCore 'vnetlink.bicep' ={
   name: 'vnetLinkBlobCore'
   params: {
-    privateDnsName: privateDnsZones.outputs.privateDnsblobCoreName
-    vnetId: ventId
-    vnetLinkName: '${privateDnsZones.outputs.privateDnsblobCoreName}.vnetlink'
+    privateDnsZoneName: privateDnsZones.outputs.privateDnsZoneBlobCoreName
+    vnetId: vnetId
+    vnetLinkName: '${privateDnsZones.outputs.privateDnsZoneBlobCoreName}.vnetlink'
   }
 }
 
@@ -96,11 +96,11 @@ module vnetLinkBlobCore 'vnetlink.bicep' ={
 module privateDnsZoneGroupDeplyment  'privatednszonegroup.bicep'={
   name: 'privateDnsZoneGroupDeployment'
   params: {
-    privateDnsAgentsvcId: privateDnsZones.outputs.privateDnsAgentSvcId
-    privateDnsBlobCoreId: privateDnsZones.outputs.privateDnsblobCoreId
-    privateDnsMonitorId: privateDnsZones.outputs.privateDnsMonitorId
-    privateDnsOdsId: privateDnsZones.outputs.privateDnsOdsId
-    privateDnsOmsId: privateDnsZones.outputs.privateDnsOmsId
+    privateDnsZoneAgentsvcId: privateDnsZones.outputs.privateDnsZoneAgentSvcId
+    privateDnsZoneBlobCoreId: privateDnsZones.outputs.privateDnsZoneBlobCoreId
+    privateDnsZoneMonitorId: privateDnsZones.outputs.privateDnsZoneMonitorId
+    privateDnsZoneOdsId: privateDnsZones.outputs.privateDnsZoneOdsId
+    privateDnsZoneOmsId: privateDnsZones.outputs.privateDnsZoneOmsId
     privateEndpointName: privateEndpoint.outputs.privateEndpointName
   }
   dependsOn:[

@@ -2,7 +2,7 @@ param location string
 param environmentName string
 
 param appInsightsId string
-param appinsihgtsName string
+param appInsightsName string
 param dceEndpointId string
 param dceName string
 param laworkspaceId string
@@ -10,11 +10,11 @@ param laworkspaceName string
 
 param vnetAddressPrefix string = '10.0.0.0/16'
 
-param subnet1AddressPrefix string = '10.0.1.0/24'
+param iaasSubnetAddressPrefix string = '10.0.1.0/24'
 
-param subnet2AddressPrefix string = '10.0.2.0/24'
+param appSubnetAddressPrefix string = '10.0.2.0/24'
 
-param subnet3AddressPrefix string = '10.0.3.0/24'
+param mgmtSubnetAddressPrefix string = '10.0.3.0/24'
 
 module vnet './vnet.bicep' = {
   name: 'vnetdeployment'
@@ -25,42 +25,42 @@ module vnet './vnet.bicep' = {
   }
 }
 
-module desaultSubnet './subnets.bicep' = {
-  name: 'IaaSsubnet'
+module iaasSubnet './subnets.bicep' = {
+  name: 'iaaSsubnet'
   params: {
     vnetName: vnet.outputs.vnetName
     subnetName: 'IaaS'
-    subnetAddressPrefix: subnet1AddressPrefix
+    subnetAddressPrefix: iaasSubnetAddressPrefix
   }
   dependsOn: [
     vnet
   ]
 }
 
-module webAppSubnet './subnets.bicep' = {
-  name: 'PaaSsubnet'
+module appServiceSubnet './subnets.bicep' = {
+  name: 'appsubnet'
   params: {
     vnetName: vnet.outputs.vnetName
-    subnetName: 'PaaS'
-    subnetAddressPrefix: subnet2AddressPrefix
+    subnetName: 'app'
+    subnetAddressPrefix: appSubnetAddressPrefix
     delegateToAppService: true
   }
   dependsOn: [
     vnet
-    desaultSubnet
+    iaasSubnet
   ]
 }
 
 module peSubnet './subnets.bicep' = {
-  name: 'MgmtSubnet'
+  name: 'mgmtSubnet'
   params: {
     vnetName: vnet.outputs.vnetName
-    subnetName: 'Mgmt'
-    subnetAddressPrefix: subnet3AddressPrefix
+    subnetName: 'mgmt'
+    subnetAddressPrefix: mgmtSubnetAddressPrefix
   }
   dependsOn: [
    vnet
-   webAppSubnet
+   appServiceSubnet
   ]
 }
 
@@ -69,13 +69,13 @@ module amplsdeployment 'ampls/amplsdeploy.bicep' ={
   params: {
     location: location
     appInsightsId: appInsightsId
-    appInsightsName:appinsihgtsName 
+    appInsightsName:appInsightsName 
     dceEndpointId: dceEndpointId
     dceName: dceName
     environmentName: environmentName
     laworkspaceId: laworkspaceId
     laworkspaceName: laworkspaceName
     privateEndpointSubnetId: peSubnet.outputs.subNetId
-    ventId: vnet.outputs.ventId 
+    vnetId: vnet.outputs.vnetId
   }
 }
