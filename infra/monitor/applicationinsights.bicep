@@ -1,6 +1,8 @@
-param location string
-param laworkspaceId string
 param environmentName string
+
+param location string
+
+param laworkspaceId string
 
 var abbrs = loadJsonContent('../abbreviations.json')
 var tags = { 'azd-env-name': environmentName }
@@ -18,4 +20,5 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
 }
 
 output appInsightsId string = appInsights.id
-output appinsightsConnectionString string = appInsights.properties.ConnectionString
+output appInsightsConnectionString string = appInsights.properties.ConnectionString
+output appInsightsName string = appInsights.name

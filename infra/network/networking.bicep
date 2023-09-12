@@ -1,57 +1,81 @@
 param location string 
-param vnetName string = 'ampls-vnet'
+param environmentName string
+
+param appInsightsId string
+param appInsightsName string
+param dceEndpointId string
+param dceName string
+param laworkspaceId string
+param laworkspaceName string
+
 param vnetAddressPrefix string = '10.0.0.0/16'
-param subnet1Name string = 'default'
-param subnet1AddressPrefix string = '10.0.1.0/24'
-param subnet2Name string = 'appServiceSubnet'
-param subnet2AddressPrefix string = '10.0.2.0/24'
-param subnet3Name string = 'PESubnet'
-param subnet3AddressPrefix string = '10.0.3.0/24'
+
+param iaasSubnetAddressPrefix string = '10.0.1.0/24'
+
+param appSubnetAddressPrefix string = '10.0.2.0/24'
+
+param mgmtSubnetAddressPrefix string = '10.0.3.0/24'
 
 module vnet './vnet.bicep' = {
-  name: 'vnetModule'
+  name: 'vnetdeployment'
   params: {
     location: location
-    vnetName: vnetName
+    environmentName: environmentName
     vnetAddressPrefix: vnetAddressPrefix
   }
 }
 
-module subnet1 './subnets.bicep' = {
-  name: 'subnet1Module'
+module iaasSubnet './subnets.bicep' = {
+  name: 'iaaSsubnet'
   params: {
     vnetName: vnet.outputs.vnetName
-    subnetName: subnet1Name
-    subnetAddressPrefix: subnet1AddressPrefix
+    subnetName: 'IaaS'
+    subnetAddressPrefix: iaasSubnetAddressPrefix
   }
   dependsOn: [
     vnet
   ]
 }
 
-module subnet2 './subnets.bicep' = {
-  name: 'subnet2Module'
+module appServiceSubnet './subnets.bicep' = {
+  name: 'appsubnet'
   params: {
     vnetName: vnet.outputs.vnetName
-    subnetName: subnet2Name
-    subnetAddressPrefix: subnet2AddressPrefix
+    subnetName: 'app'
+    subnetAddressPrefix: appSubnetAddressPrefix
     delegateToAppService: true
   }
   dependsOn: [
     vnet
-    subnet1
+    iaasSubnet
   ]
 }
 
-module subnet3 './subnets.bicep' = {
-  name: 'subnet3Module'
+module peSubnet './subnets.bicep' = {
+  name: 'mgmtSubnet'
   params: {
     vnetName: vnet.outputs.vnetName
-    subnetName: subnet3Name
-    subnetAddressPrefix: subnet3AddressPrefix
+    subnetName: 'mgmt'
+    subnetAddressPrefix: mgmtSubnetAddressPrefix
   }
   dependsOn: [
-    vnet
-    subnet2
+   vnet
+   appServiceSubnet
   ]
+}
+
+module amplsdeployment 'ampls/amplsdeploy.bicep' ={
+  name: 'amplsenvironmentdeployment'
+  params: {
+    location: location
+    appInsightsId: appInsightsId
+    appInsightsName:appInsightsName 
+    dceEndpointId: dceEndpointId
+    dceName: dceName
+    environmentName: environmentName
+    laworkspaceId: laworkspaceId
+    laworkspaceName: laworkspaceName
+    privateEndpointSubnetId: peSubnet.outputs.subNetId
+    vnetId: vnet.outputs.vnetId
+  }
 }

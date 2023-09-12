@@ -11,8 +11,10 @@ param subnetAddressPrefix string
 @description('checking if this subnet should be delegated to AppService')
 param delegateToAppService bool = false
 
+var abbrs = loadJsonContent('../abbreviations.json')
+
 resource subnet 'Microsoft.Network/virtualNetworks/subnets@2020-06-01' = {
-  name: '${vnetName}/${subnetName}'
+  name: '${vnetName}/${abbrs.networkVirtualNetworksSubnets}${subnetName}'
   properties: {
     addressPrefix: subnetAddressPrefix
     delegations: delegateToAppService ? [
@@ -25,3 +27,5 @@ resource subnet 'Microsoft.Network/virtualNetworks/subnets@2020-06-01' = {
     ] : []
   }
 }
+
+output subNetId string = subnet.id

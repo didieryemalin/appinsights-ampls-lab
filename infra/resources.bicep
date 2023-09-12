@@ -1,6 +1,14 @@
 param environmentName string
 param location string = resourceGroup().location
 
+//module host 'host/host.bicep' = {
+//  name: 'host'
+//  params:{
+//    environmentName: environmentName
+//    location: location
+//  }
+//}
+
 module monitoring 'monitor/monitoring.bicep' = {
   name: 'monitoring'
   params:{
@@ -9,19 +17,16 @@ module monitoring 'monitor/monitoring.bicep' = {
   }
 }
 
-// module networking 'network/networking.bicep' = {
-//   name: 'networking'
-//   params:{
-//     environmentName: environmentName
-//     location: location
-//   }
-// }
-
-module host 'host/host.bicep' = {
-  name: 'host'
-  params:{
-    environmentName: environmentName
+module networking 'network/networking.bicep' = {
+  name: 'networking'
+  params: {
     location: location
-    appplicationInsightsConnectionString: monitoring.outputs.appinsightsConnectionString
+    appInsightsId: monitoring.outputs.appInsightsId
+    appInsightsName: monitoring.outputs.appInsightsName
+    dceEndpointId: monitoring.outputs.dceEndpointId
+    dceName: monitoring.outputs.dceName
+    environmentName: environmentName
+    laworkspaceId: monitoring.outputs.laworkspaceId
+    laworkspaceName: monitoring.outputs.laworkspaceName
   }
-}
+  }

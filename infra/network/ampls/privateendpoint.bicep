@@ -1,4 +1,4 @@
-param name string
+param environmentName string
 
 param location string
 
@@ -6,9 +6,13 @@ param privateEndpointSubnetId string
 
 param privateLinkId string
 
+var abbrs = loadJsonContent('../../abbreviations.json')
+var tags = { 'azd-env-name': environmentName }
+
 //Creating Private Endpoint 
 resource privateEndpoint 'Microsoft.Network/privateEndpoints@2021-05-01' = {
-  name: name
+  name: '${abbrs.networkPrivateEndpoint}${environmentName}'
+  tags: tags
   location: location
   properties: {
     subnet: {
@@ -16,7 +20,7 @@ resource privateEndpoint 'Microsoft.Network/privateEndpoints@2021-05-01' = {
     }
     privateLinkServiceConnections: [
       {
-        name: name
+        name:'${abbrs.networkPrivateLinkServices}${environmentName}'
         properties: {
           privateLinkServiceId: privateLinkId
           groupIds: [
@@ -27,3 +31,5 @@ resource privateEndpoint 'Microsoft.Network/privateEndpoints@2021-05-01' = {
     ]
   }
 }
+
+output privateEndpointName string = privateEndpoint.name
