@@ -3,7 +3,7 @@ param location string = resourceGroup().location
 param appplicationInsightsConnectionString string
 
 module storage 'storage.bicep' = {
-  name: 'storageaccount'
+  name: 'storageaccountdeploy'
   params: {
     location: location
     environmentName: environmentName
@@ -12,7 +12,7 @@ module storage 'storage.bicep' = {
 }
 
 module appserviceplan 'appserviceplan.bicep' = {
-  name: 'functionappserviceplan'
+  name: 'appserviceplandeploy'
   params: {
     sku: {
       name: 'S1'
@@ -29,7 +29,7 @@ module appserviceplan 'appserviceplan.bicep' = {
 }
 
 module functionapp 'functionapp.bicep' = {
-  name: 'functionapp'
+  name: 'functionappdeploy'
   params: {
     environmentName: environmentName
     location: location
