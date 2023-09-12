@@ -1,15 +1,15 @@
 
 param privateEndpointName string
 
-param privateDnsMonitorId string
+param privateDnsZoneMonitorId string
 
-param privateDnsOmsId string
+param privateDnsZoneOmsId string
 
-param privateDnsOdsId string
+param privateDnsZoneOdsId string
 
-param privateDnsAgentsvcId string
+param privateDnsZoneAgentsvcId string
 
-param privateDnsBlobCoreId string
+param privateDnsZoneBlobCoreId string
 
 resource privateEndpointDnsGroup 'Microsoft.Network/privateEndpoints/privateDnsZoneGroups@2021-05-01' = {
   name: '${privateEndpointName}/privateEndpointDnsGroup'
@@ -18,31 +18,31 @@ resource privateEndpointDnsGroup 'Microsoft.Network/privateEndpoints/privateDnsZ
       {
         name: 'privatelink-monitor-azure-com'
         properties: {
-          privateDnsZoneId: privateDnsMonitorId
+          privateDnsZoneId: privateDnsZoneMonitorId
         }
       }
       {
         name: 'privatelink-oms-opinsights-azure-com'
         properties: {
-          privateDnsZoneId: privateDnsOmsId
+          privateDnsZoneId: privateDnsZoneOmsId
         }
       }
       {
         name: 'privatelink-ods-opinsights-azure-com'
         properties: {
-          privateDnsZoneId: privateDnsOdsId
+          privateDnsZoneId: privateDnsZoneOdsId
         }
       }
       {
         name: 'privatelink-agentsvc-azure-automation-net'
         properties: {
-          privateDnsZoneId: privateDnsAgentsvcId
+          privateDnsZoneId: privateDnsZoneAgentsvcId
         }
       }
       {
         name: 'privatelink-blob-core-windows-net'
         properties: {
-          privateDnsZoneId: privateDnsBlobCoreId
+          privateDnsZoneId: privateDnsZoneBlobCoreId
         }
       }
     ]
