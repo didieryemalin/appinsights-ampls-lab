@@ -1,7 +1,6 @@
 param environmentName string
 
 param location string
-
 param laworkspaceId string
 
 var abbrs = loadJsonContent('../abbreviations.json')
