@@ -1,7 +1,7 @@
 param environmentName string
 param location string = resourceGroup().location
 param appplicationInsightsConnectionString string
-
+param vnetIntegrationSubnetResourceId string
 module storage 'storage.bicep' = {
   name: 'storageaccountdeploy'
   params: {
@@ -37,5 +37,6 @@ module functionapp 'functionapp.bicep' = {
     appServicePlanId: appserviceplan.outputs.appServicePlanId
     appplicationInsightsConnectionString: appplicationInsightsConnectionString
     storageConnectionString: storage.outputs.connectionstring
+    vnetIntegrationSubnetResourceId: vnetIntegrationSubnetResourceId
   }
 }
