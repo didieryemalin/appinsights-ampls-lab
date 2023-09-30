@@ -36,7 +36,7 @@ module privateEndpoint 'privateendpoint.bicep'={
 
 //deploying Private DNS Zones
 module privateDnsZones 'privateDnsZonedeploy.bicep'={
-  name: 'priavteDnsDeployment'
+  name: 'privateDnsDeployment'
   params: {
     environmentName: environmentName
   }
