@@ -21,7 +21,7 @@
     "computeDisksOs": "osdisk",
     "computeGalleries": "gal",
     "computeSnapshots": "snap-",
-    "computeVirtualMachines": "vm",
+    "computeVirtualMachines": "vm-",
     "computeVirtualMachineScaleSets": "vmss-",
     "containerInstanceContainerGroups": "ci",
     "containerRegistryRegistries": "cr",

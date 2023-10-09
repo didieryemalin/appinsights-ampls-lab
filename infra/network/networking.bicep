@@ -81,3 +81,4 @@ module amplsdeployment 'ampls/amplsdeploy.bicep' ={
 }
 
 output appServiceSubnetId string = appServiceSubnet.outputs.subNetId
+output iaasSubnetId string = iaasSubnet.outputs.subNetId

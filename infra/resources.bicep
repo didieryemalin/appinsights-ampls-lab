@@ -30,5 +30,6 @@ module host 'host/host.bicep' = {
     location: location
     appplicationInsightsConnectionString: monitoring.outputs.appInsightsConnectionString
     vnetIntegrationSubnetResourceId: networking.outputs.appServiceSubnetId
+    iaasSubnetId: networking.outputs.iaasSubnetId
   }
 }

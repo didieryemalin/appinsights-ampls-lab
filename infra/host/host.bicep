@@ -2,6 +2,8 @@ param environmentName string
 param location string = resourceGroup().location
 param appplicationInsightsConnectionString string
 param vnetIntegrationSubnetResourceId string
+param iaasSubnetId string
+
 module storage 'storage.bicep' = {
   name: 'storageaccountdeploy'
   params: {
@@ -38,5 +40,14 @@ module functionapp 'functionapp.bicep' = {
     appplicationInsightsConnectionString: appplicationInsightsConnectionString
     storageConnectionString: storage.outputs.connectionstring
     vnetIntegrationSubnetResourceId: vnetIntegrationSubnetResourceId
+  }
+}
+
+module virtualmachinewithama 'vmwithama.bicep' = {
+  name: 'virtualmachinewithamadeploy'
+  params: {
+    environmentName: environmentName
+    location: location
+    vmSubnetId: iaasSubnetId
   }
 }
