@@ -1,9 +1,11 @@
 param environmentName string
 param location string = resourceGroup().location
 param appplicationInsightsConnectionString string
+param vnetIntegrationSubnetResourceId string
+param iaasSubnetId string
 
 module storage 'storage.bicep' = {
-  name: 'storageaccount'
+  name: 'storageaccountdeploy'
   params: {
     location: location
     environmentName: environmentName
@@ -12,7 +14,7 @@ module storage 'storage.bicep' = {
 }
 
 module appserviceplan 'appserviceplan.bicep' = {
-  name: 'functionappserviceplan'
+  name: 'appserviceplandeploy'
   params: {
     sku: {
       name: 'S1'
@@ -29,7 +31,7 @@ module appserviceplan 'appserviceplan.bicep' = {
 }
 
 module functionapp 'functionapp.bicep' = {
-  name: 'functionapp'
+  name: 'functionappdeploy'
   params: {
     environmentName: environmentName
     location: location
@@ -37,5 +39,15 @@ module functionapp 'functionapp.bicep' = {
     appServicePlanId: appserviceplan.outputs.appServicePlanId
     appplicationInsightsConnectionString: appplicationInsightsConnectionString
     storageConnectionString: storage.outputs.connectionstring
+    vnetIntegrationSubnetResourceId: vnetIntegrationSubnetResourceId
+  }
+}
+
+module virtualmachinewithama 'vmwithama.bicep' = {
+  name: 'virtualmachinewithamadeploy'
+  params: {
+    environmentName: environmentName
+    location: location
+    vmSubnetId: iaasSubnetId
   }
 }

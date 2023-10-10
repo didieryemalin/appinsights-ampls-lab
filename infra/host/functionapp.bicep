@@ -4,9 +4,11 @@ param purpose string
 param appServicePlanId string
 param appplicationInsightsConnectionString string
 param storageConnectionString string
+param vnetIntegrationSubnetResourceId string
 
 var abbrs = loadJsonContent('../abbreviations.json')
-var tags = { 'azd-env-name': environmentName, 'azd-service-name': 'api' }
+var tags = { 
+  'azd-env-name': environmentName, 'azd-service-name': 'api', 'purpose': 'Generates Application Insights data' }
 var functionAppName = '${abbrs.webSitesFunctions}${environmentName}-${purpose}'
 
 resource functionapp 'Microsoft.Web/sites@2022-03-01' = {
@@ -48,6 +50,15 @@ resource functionapp 'Microsoft.Web/sites@2022-03-01' = {
         }
       ]
     }
+  }
+}
+
+resource functionapp_vnetIntegration 'Microsoft.Web/sites/networkConfig@2022-03-01' = {
+  parent: functionapp
+  name: 'virtualNetwork'
+  properties: {
+    subnetResourceId: vnetIntegrationSubnetResourceId
+    swiftSupported: true
   }
 }
 
